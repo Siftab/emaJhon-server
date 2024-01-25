@@ -33,7 +33,10 @@ async function run() {
 
     app.get('/products', async(req, res) => {
       console.log("query=>",req.query)
-        const result = await productCollection.find().toArray();
+      const limit = parseInt(req.query.page)*parseInt(req.query.size)
+        const result = await productCollection.find()
+        .skip(limit)
+        .limit(parseInt(req.query.size)).toArray();
         res.send(result);
     })
       app.get('/productsCount',async(req,res)=>{
